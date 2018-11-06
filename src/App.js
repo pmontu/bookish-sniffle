@@ -8,8 +8,8 @@ class Thumbnail extends Component {
   render() {
     return (
       <img
-        width="50"
-        height="50"
+        width="100"
+        height="100"
         src={this.props.base64} />
     )
   }
@@ -43,6 +43,12 @@ class App extends Component {
           picture: files[i].base64,
         })
       })
+      let listItems = this.state.listItems;
+      listItems.push(<li key={listItems.length}><Thumbnail base64={files[i].base64}/></li>)
+      this.setState(prevState => ({
+        ...prevState,
+        listItems: listItems
+      }))
     }
 
     // 3
