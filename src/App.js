@@ -3,6 +3,15 @@ import './App.css';
 
 import FileBase64 from 'react-file-base64';
 
+function postPicture(data) {
+  return fetch('http://localhost:3000/picture', {
+    method: 'POST',
+    body: JSON.stringify({
+      picture: data,
+    })
+  })
+}
+
 function handleErrors(response) {
     if (!response.ok) {
         throw Error(response.statusText);
@@ -34,8 +43,49 @@ class App extends Component {
     };
   }
 
+  uploadInterrupted() {
+    this.setState(prevState => ({
+      ...prevState,
+      file_message: "Upload Interrupted.",
+    }))
+  }
+
+  async uploadFiles(files) {
+    try {
+
+      // 2 - Upload one by one
+      for (let i=0; i<files.length; i++) {
+        // Upload one image
+        // const response = await fetch("http://httpstat.us/500", {
+        const response = await postPicture(files[i].base64)
+
+        // Stop upload on error
+        if (!response.ok) {
+          this.uploadInterrupted();
+          return;
+        }
+
+        // Insert Uploaded Pick into The List
+        let listItems = this.state.listItems;
+        listItems.push(<li key={listItems.length}><Thumbnail base64={files[i].base64}/></li>)
+        this.setState(prevState => ({
+          ...prevState,
+          listItems: listItems
+        }))
+      }
+
+      // 3 - Finish up
+      this.setState(prevState => ({
+        ...prevState,
+        file_message: "Uploaded.",
+      }))
+
+    } catch (err) {
+      this.uploadInterrupted()
+    }
+  }
+
   async getFiles(files) {
-    console.log(files);
 
     // validate file type
     for( let i=0; i<files.length; i++ ){
@@ -60,40 +110,7 @@ class App extends Component {
       file_message: "Uploading File(s)...",
     }))
 
-    // 2 - Upload one by one
-    for (let i=0; i<files.length; i++) {
-      // Upload one image
-      // const response = await fetch("http://httpstat.us/500", {
-      const response = await fetch('http://localhost:3000/picture', {
-        method: 'POST',
-        body: JSON.stringify({
-          picture: files[i].base64,
-        })
-      })
-
-      // Stop upload on error
-      if (!response.ok) {
-        this.setState(prevState => ({
-          ...prevState,
-          file_message: "Upload Interrupted.",
-        }))
-        return;
-      }
-
-      // Insert Uploaded Pick into The List
-      let listItems = this.state.listItems;
-      listItems.push(<li key={listItems.length}><Thumbnail base64={files[i].base64}/></li>)
-      this.setState(prevState => ({
-        ...prevState,
-        listItems: listItems
-      }))
-    }
-
-    // 3 - Finish up
-    this.setState(prevState => ({
-      ...prevState,
-      file_message: "Uploaded.",
-    }))
+    await this.uploadFiles(files);
 
   }
 
