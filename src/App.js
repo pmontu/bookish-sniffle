@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Upload from './upload.js'
+import Pictures from './pictures.js'
 
 import 'typeface-roboto'
 import { SketchField, Tools } from 'react-sketch';
@@ -30,7 +31,7 @@ function Canvas(props) {
       tool={Tools.Pencil}
       lineColor='black'
       lineWidth={3}
-      style={{"border-style": 'solid'}}
+      style={{"borderStyle": 'solid'}}
     />
   );
 }
@@ -53,6 +54,12 @@ const styles = theme => ({
   },
   progress: {
     margin: theme.spacing.unit * 2,
+  },
+  card: {
+    maxWidth: 345,
+  },
+  media: {
+    height: 140,
   },
 });
 
@@ -86,7 +93,7 @@ class App extends React.Component {
           </Tabs>
         </AppBar>
         {value === 0 && <TabContainer><Upload classes={this.props.classes}/></TabContainer>}
-        {value === 1 && <TabContainer>Item Two</TabContainer>}
+        {value === 1 && <TabContainer><Pictures classes={this.props.classes}/></TabContainer>}
         {value === 2 && <TabContainer><Canvas/></TabContainer>}
       </div>
     );
