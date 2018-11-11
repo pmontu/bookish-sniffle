@@ -1,18 +1,17 @@
 import React from 'react';
 
+import Upload from './upload.js'
+
 import 'typeface-roboto'
-import FileBase64 from 'react-file-base64';
 import { SketchField, Tools } from 'react-sketch';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Button from '@material-ui/core/Button';
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
 import BrushIcon from '@material-ui/icons/Brush';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Typography from '@material-ui/core/Typography';
 
 function TabContainer(props) {
@@ -21,36 +20,6 @@ function TabContainer(props) {
       {props.children}
     </Typography>
   );
-}
-
-class Upload extends React.Component {
-  render() {
-    const { classes } = this.props;
-
-    return (
-      <div>
-        <input
-          accept="image/*"
-          className={classes.input}
-          style={{ display: 'none' }}
-          id="raised-button-file"
-          type="file"
-          ref={(ref) => this.myInput = ref}
-        />
-        <label htmlFor="raised-button-file">
-          <Button
-            variant="contained"
-            color="default"
-            className={classes.button}
-            onClick={(e) => this.myInput.click()}
-          >
-            Upload
-            <CloudUploadIcon className={classes.rightIcon} />
-          </Button>
-        </label>
-      </div>
-    );
-  }
 }
 
 function Canvas(props) {
@@ -81,6 +50,9 @@ const styles = theme => ({
   },
   rightIcon: {
     marginLeft: theme.spacing.unit,
+  },
+  progress: {
+    margin: theme.spacing.unit * 2,
   },
 });
 
