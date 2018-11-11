@@ -8,6 +8,7 @@
   "dependencies": {
     "@material-ui/core": "^3.4.0",
     "@material-ui/icons": "^3.0.1",
+    "makecancelable": "^1.0.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-file-base64": "^1.0.3",
