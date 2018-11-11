@@ -45,6 +45,8 @@ const styles = theme => ({
     flexGrow: 1,
     width: '100%',
     backgroundColor: theme.palette.background.paper,
+    justifyContent: 'space-around',
+    overflow: 'hidden',
   },
   button: {
     margin: theme.spacing.unit,
@@ -60,6 +62,14 @@ const styles = theme => ({
   },
   media: {
     height: 140,
+  },
+  gridList: {
+    width: 500,
+    height: 450,
+  },
+  pictures: {
+    display: 'flex',
+    flexWrap: 'wrap',
   },
 });
 

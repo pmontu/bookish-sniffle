@@ -2,6 +2,8 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
 
 const LOADING = "LOADING"
 const SERVER_ERROR = "SERVER_ERROR"
@@ -41,7 +43,6 @@ class Pictures extends React.Component {
         )
       )
       const pictures = await Promise.all(results)
-      console.log(pictures)
 
       this.setState(Object.assign({}, this.state, {status: DOWNLOAD_COMPLETE, pictures: pictures}))
 
@@ -53,17 +54,25 @@ class Pictures extends React.Component {
   render() {
     const { classes } = this.props;
 
-    return this.state.pictures.map((picture, index) =>
-      <Card className={classes.card} key={index}>
-        <CardActionArea>
-          <CardMedia
-            className={classes.media}
-            image={picture.picture}
-            title="Contemplative Reptile"
-          />
-        </CardActionArea>
-      </Card>
-    );
+    return (
+      <div className={classes.pictures}>
+        <GridList cellHeight={160} className={classes.gridList} cols={3}>
+          {this.state.pictures.map((picture, index) =>
+            <GridListTile key={index} cols={1}>
+              <Card className={classes.card} key={index}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={picture.picture}
+                    title="Contemplative Reptile"
+                  />
+                </CardActionArea>
+              </Card>
+            </GridListTile>
+          )}
+        </GridList>
+      </div>
+    )
   }
 }
 
